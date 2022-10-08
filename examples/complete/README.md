@@ -1,22 +1,29 @@
 <!-- BEGIN_TF_DOCS -->
-# Power Policy Example
+# Persistent Memory Policy Example
 
 ### main.tf
 ```hcl
-module "power_policy" {
-  source  = "terraform-cisco-modules/policies-power/intersight"
+module "persistent_memory" {
+  source  = "terraform-cisco-modules/policies-persistent-memory/intersight"
   version = ">= 1.0.1"
 
-  description               = "default Power Policy."
-  power_allocation          = 8400
-  power_priority            = "Low"
-  power_profiling           = "Enabled"
-  power_redundancy          = "Grid"
-  power_restore             = "LastState"
-  power_save_mode           = "Enabled"
-  dynamic_power_rebalancing = "Enabled"
-  name                      = "default"
-  organization              = "default"
+  description            = "default Persistent Memory Policy."
+  name                   = "default"
+  management_mode        = "configured-from-intersight"
+  memory_mode_percentage = 50
+  namespaces = [
+    {
+      capacity         = 512
+      mode             = "raw"
+      name             = "default"
+      socket_id        = 1
+      socket_memory_id = "Not Applicable"
+    }
+  ]
+  organization           = "default"
+  persistent_memory_type = "app-direct"
+  retain_namespaces      = true
+  persistent_passphrase  = var.persistent_passphrase
 }
 ```
 
@@ -63,6 +70,13 @@ variable "secretkey" {
 variable "secretkeyfile" {
   default     = "blah.txt"
   description = "Intersight Secret Key File Location."
+  sensitive   = true
+  type        = string
+}
+
+variable "secure_passphrase" {
+  default     = ""
+  description = "Secure passphrase to be applied on the Persistent Memory Modules on the server. The allowed characters are a-z, A to Z, 0-9, and special characters =, \u0021, &, #, $, %, +, ^, @, _, *, -."
   sensitive   = true
   type        = string
 }
