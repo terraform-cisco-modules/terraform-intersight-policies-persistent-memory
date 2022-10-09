@@ -38,7 +38,7 @@ variable "namespaces" {
     * capacity - Capacity of this Namespace that is created or modified.
     * mode: (optional) - Mode of this Namespace that is created or modified.
       - block - The block mode of Persistent Memory Namespace.
-      - raw; (default) - The raw mode of Persistent Memory Namespace.
+      - raw: (default) - The raw mode of Persistent Memory Namespace.
     * name - Name of the Logical Namespace
     * socket_id: (optional) - Default is 1.  Socket ID of the region on which this Namespace has to be created or modified.
       - 1: (default) - The first CPU socket in a server.
